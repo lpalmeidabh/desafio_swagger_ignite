@@ -1,0 +1,173 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SOLID Challenge API Documentation",
+    "description": "This is an API for the SOLID Challenge",
+    "version": "1.0.0",
+    "contact": {
+      "email": "lpalmeidabh@gmail.com"
+    }
+  }, 
+  "paths":{
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a new user",
+        "description": "Create a new User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Sample name for new user",
+                  "email": "User Description"
+                }
+              }
+            }
+          }
+        },
+        "responses":{
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "User already exists"
+          }
+        }
+      },
+      "get": {
+        "tags": ["User"],
+        "summary": "List all users",
+        "description": "Only admins can retrieve user list",    
+        "parameters": [{
+          "name": "user_id",
+          "in": "header",
+          "description": "Admin User ID",
+          "required": true
+      }],
+       
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {"type": "string"},
+                      "email": {"type": "string"}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User requesting the list does not exist or is not an admin"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+    
+      "get": {
+        "tags": ["User"],
+        "summary": "Show User Profile",
+        "description": "Only admins can retrieve user profile",    
+        "parameters": [
+          {
+          "name": "user_id",
+          "in": "header",
+          "description": "Admin User ID",
+          "required": true
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User ID",
+            "required": true
+            }
+        ],
+        
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {"type": "string"},
+                    "email": {"type": "string"}
+                  }
+                
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User requesting the list does not exist or is not an admin"
+          }
+        }
+      }
+      
+        
+    },
+    "/users/{user_id}/admin": {
+    
+      "patch": {
+        "tags": ["User"],
+        "summary": "Set User as Admin",
+        "description": "Only admins can set another user as admin",    
+        "parameters": [
+          {
+          "name": "user_id",
+          "in": "header",
+          "description": "Admin User ID",
+          "required": true
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User ID",
+            "required": true
+            }
+        ],
+        
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {"type": "string"},
+                    "email": {"type": "string"}
+                  }
+                
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Only admins can set another user as admin"
+          }
+        }
+      }
+      
+        
+    }
+  }
+}
